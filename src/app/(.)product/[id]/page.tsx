@@ -7,6 +7,7 @@ import { Dialog } from "@headlessui/react";
 import { OptimizationImage } from "@/components";
 import { StarIcon as StartIconOutline } from "@heroicons/react/24/outline";
 import { StarIcon } from "@heroicons/react/24/solid";
+import { toast } from "react-toastify";
 const ProductDetailPage = () => {
   const { id } = useParams();
   const [isLoading, setLoading] = useState<boolean>(false);
@@ -27,7 +28,7 @@ const ProductDetailPage = () => {
 
   const handleClick = () => {
     const getDataProducts: IProduct[] =
-      JSON.parse(localStorage.getItem("products")) || [];
+      JSON.parse(localStorage.getItem("products") as string) || [];
 
     const isExistProduct = getDataProducts.some((obj) => obj.id == product?.id);
     if (isExistProduct) {
@@ -43,6 +44,7 @@ const ProductDetailPage = () => {
       const newProduct = [...getDataProducts, { ...product, quantity: 1 }];
       localStorage.setItem(`products`, JSON.stringify(newProduct));
     }
+    toast.success("Successfully added!", { autoClose: 3000 });
   };
 
   return (

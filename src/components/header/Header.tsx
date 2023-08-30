@@ -10,9 +10,11 @@ const Header = () => {
         <Link href={"/"}>Atosh</Link>
       </span>
       <div className="flex">
-        <Button variant="contained" size="medium" className="bg-sky-600">
-          My Bag
-        </Button>
+        <Link href={`/shopping-card`}>
+          <Button variant="contained" size="medium" className="bg-sky-600">
+            My Bag
+          </Button>
+        </Link>
       </div>
     </header>
   );
