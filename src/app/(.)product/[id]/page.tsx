@@ -45,18 +45,33 @@ const ProductDetailPage = () => {
                     <OptimizationImage product={product} />
                   </div>
                 )}
-                <div className="flex flex-1 flex-col overflow-y-auto scrollbar-thin scrollbar-thumb-slate-600  scrollbar-track-orange-400 px-3">
-                  <div className="flex-1">
-                    <h4 className="font-semibold text-gray-700/80">
-                      {product?.title}
-                    </h4>
-                    <p className="font-bold text-md text-black">
-                      {product?.price}$
-                    </p>
+                <div className="flex flex-1 flex-col ">
+                  <div className="flex flex-col flex-1">
+                    <div className="flex flex-col flex-1">
+                      <h4 className="font-semibold text-gray-700/80">
+                        {product?.title}
+                      </h4>
+                      <p className="font-bold text-md text-black">
+                        {product?.price}$
+                      </p>
 
-                    <p className="text-md text-gray-600">
-                      {product?.description}
-                    </p>
+                      <p className="text-md text-gray-600 line-clamp-4 ">
+                        {product?.description}
+                      </p>
+                    </div>
+                    <div className="flex flex-1 flex-col  justify-end">
+                      <div className="flex gap-4 items-center">
+                        <button className="font-semibold transition-all active:scale-110 duration-500  bg-sky-600 rounded-md p-3">
+                          Add to Bag
+                        </button>
+                        <button
+                          onClick={() => window.location.reload()}
+                          className="rounded-md p-3 font-semibold transition-all  hover:bg-sky-400 duration-300 hover:text-white border border-sky-400 text-black/50"
+                        >
+                          View details
+                        </button>
+                      </div>
+                    </div>
                   </div>
                   <div className="flex items-center text-md my-4">
                     <p className="text-black">{product?.rating.rate}</p>
