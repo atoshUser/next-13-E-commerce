@@ -25,6 +25,26 @@ const ProductDetailPage = () => {
     getProduct();
   }, [id]);
 
+  const handleClick = () => {
+    const getDataProducts: IProduct[] =
+      JSON.parse(localStorage.getItem("products")) || [];
+
+    const isExistProduct = getDataProducts.some((obj) => obj.id == product?.id);
+    if (isExistProduct) {
+      const newUpdatedProducts = getDataProducts.map((obj) => {
+        if (obj.id == product?.id) {
+          return { ...product, quantity: obj.quantity + 1 };
+        } else {
+          return product;
+        }
+      });
+      localStorage.setItem(`products`, JSON.stringify(newUpdatedProducts));
+    } else {
+      const newProduct = [...getDataProducts, { ...product, quantity: 1 }];
+      localStorage.setItem(`products`, JSON.stringify(newProduct));
+    }
+  };
+
   return (
     <Dialog
       open={isOpen}
@@ -61,7 +81,10 @@ const ProductDetailPage = () => {
                     </div>
                     <div className="flex flex-1 flex-col  justify-end">
                       <div className="flex gap-4 items-center">
-                        <button className="font-semibold transition-all active:scale-110 duration-500  bg-sky-600 rounded-md p-3">
+                        <button
+                          className="font-semibold transition-all active:scale-110 duration-500  bg-sky-600 rounded-md p-3"
+                          onClick={handleClick}
+                        >
                           Add to Bag
                         </button>
                         <button
