@@ -6,6 +6,8 @@ import { OptimizationImage } from "..";
 import Link from "next/link";
 
 const ProductItem: FC<{ product: IProduct }> = ({ product }) => {
+  console.log(product);
+
   return (
     //
     <li className="flex flex-col p-2 md:p-4 gap-4 bg-white rounded-md transition-all duration-300 hover:scale-105 cursor-pointer">

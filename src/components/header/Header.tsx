@@ -9,17 +9,9 @@ const Header = () => {
       <span className="text-white text-3xl font-bold italic hover:opacity-50 transition-all duration-300">
         <Link href={"/"}>Atosh</Link>
       </span>
-      <div className="flex space-x-8">
+      <div className="flex">
         <Button variant="contained" size="medium" className="bg-sky-600">
-          Log In
-        </Button>
-        <Button
-          variant="outlined"
-          size="medium"
-          className="bg-yellow-400 hover:bg-transparent"
-          color="success"
-        >
-          Sign Up
+          My Bag
         </Button>
       </div>
     </header>

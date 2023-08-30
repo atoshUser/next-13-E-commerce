@@ -5,9 +5,10 @@ import React, { FC, useState } from "react";
 
 interface Props {
   product: IProduct;
+  objFit?:string
 }
 
-const OptimizationImage: FC<Props> = ({ product }) => {
+const OptimizationImage: FC<Props> = ({ product,objFit }) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   return (
     <>
@@ -15,6 +16,7 @@ const OptimizationImage: FC<Props> = ({ product }) => {
         src={product.image}
         alt={product.title}
         fill
+        objectFit={objFit}
         className={`object-contain duration-700 ease-in-out ${
           isLoading
             ? `scale-110 blur-2xl grayscale`
