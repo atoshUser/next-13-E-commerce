@@ -45,13 +45,17 @@ const ProductDetailPage = () => {
                     <OptimizationImage product={product} />
                   </div>
                 )}
-                <div className="flex flex-1 flex-col">
+                <div className="flex flex-1 flex-col overflow-y-auto scrollbar-thin scrollbar-thumb-slate-600  scrollbar-track-orange-400 px-3">
                   <div className="flex-1">
                     <h4 className="font-semibold text-gray-700/80">
                       {product?.title}
                     </h4>
                     <p className="font-bold text-md text-black">
                       {product?.price}$
+                    </p>
+
+                    <p className="text-md text-gray-600">
+                      {product?.description}
                     </p>
                   </div>
                   <div className="flex items-center text-md my-4">
@@ -80,6 +84,9 @@ const ProductDetailPage = () => {
                         )}
                       </div>
                     )}
+                    <p className="text-blue-300  underline decoration-pink-500 ">
+                      See all {product?.rating.count} reviews
+                    </p>
                   </div>
                 </div>
               </div>
