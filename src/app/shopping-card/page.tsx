@@ -3,6 +3,7 @@ import { IProduct } from "@/interfaces";
 import React from "react";
 import { StarIcon as StartIconOutline } from "@heroicons/react/24/outline";
 import { StarIcon } from "@heroicons/react/24/solid";
+import { OptimizationImage } from "@/components";
 const page = () => {
   const products: IProduct[] =
     JSON.parse(localStorage.getItem("products") as string) || [];
@@ -15,30 +16,36 @@ const page = () => {
           {products.map((obj) => {
             return (
               <div className="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start">
-                <img
-                  src="https://images.unsplash.com/photo-1587563871167-1ee9c731aefb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1131&q=80"
-                  alt="product-image"
-                  className="w-full rounded-lg sm:w-40"
-                />
+                <div className="relative w-52">
+                  <OptimizationImage product={obj} />
+                </div>
                 <div className="sm:ml-4 sm:flex sm:w-full sm:justify-between">
                   <div className="mt-5 sm:mt-0">
                     <h2 className="text-lg font-bold text-gray-900">
                       {obj.title}
                     </h2>
-                    {/* <p className="mt-1 text-xs text-gray-700">36EU - 4US</p> */}
-                    <div className="flex flex-row">
-                      {Array.from({ length: obj.rating.rate }, (_, id) => (
-                        <StarIcon
-                          key={id}
-                          className="w-5 h-5 text-yellow-400"
-                        />
-                      ))}
-                      {Array.from({ length: obj.rating.rate }, (_, idx) => (
-                        <StartIconOutline
-                          key={idx}
-                          className="w-5 h-5 text-yellow-400"
-                        />
-                      ))}
+                    <p className="mt-1 text-xs text-gray-700 line-clamp-2">
+                      {obj.description}
+                    </p>
+                    <div className="flex gap-3 items-center">
+                      <span>{obj.rating.rate}</span>
+                      <div className="flex flex-row">
+                        {Array.from({ length: obj.rating.rate }, (_, id) => (
+                          <StarIcon
+                            key={id}
+                            className="w-5 h-5 text-yellow-400"
+                          />
+                        ))}
+                        {Array.from(
+                          { length: 5 - obj.rating.rate },
+                          (_, idx) => (
+                            <StartIconOutline
+                              key={idx}
+                              className="w-5 h-5 text-yellow-400"
+                            />
+                          )
+                        )}
+                      </div>
                     </div>
                   </div>
                   <div className="mt-4 flex justify-between im sm:space-y-6 sm:mt-0 sm:block sm:space-x-6">
@@ -59,7 +66,7 @@ const page = () => {
                       </span>
                     </div>
                     <div className="flex items-center space-x-4">
-                      <p className="text-sm">{obj.price}$</p>
+                      <p className="text-sm font-semibold">{obj.price}$</p>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
