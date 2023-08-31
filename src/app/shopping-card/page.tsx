@@ -1,12 +1,60 @@
 "use client";
 import { IProduct } from "@/interfaces";
-import React from "react";
+import React, { useCallback, useState } from "react";
 import { StarIcon as StartIconOutline } from "@heroicons/react/24/outline";
 import { StarIcon } from "@heroicons/react/24/solid";
 import { OptimizationImage } from "@/components";
-const page = () => {
-  const products: IProduct[] =
-    JSON.parse(localStorage.getItem("products") as string) || [];
+
+const ShoppingCardPage = () => {
+  const [products, setProducts] = useState<IProduct[]>(
+    JSON.parse(localStorage.getItem("products") as string) || []
+  );
+
+  // delete  product from list Product
+  const handleDeleteProductItem = (id: number) => {
+    const newUpdateProducts: IProduct[] = products.filter(
+      (obj) => obj?.id !== id
+    );
+    localStorage.setItem("products", JSON.stringify(newUpdateProducts));
+    setProducts(newUpdateProducts);
+  };
+
+  // increment total of product
+
+  const incrementProduct = (id: number) => {
+    const updatedProducts = products.map((obj) => {
+      if (obj.id == id) {
+        return { ...obj, quantity: obj.quantity + 1 };
+      } else {
+        return obj;
+      }
+    });
+
+    localStorage.setItem(`products`, JSON.stringify(updatedProducts));
+    setProducts(updatedProducts);
+  };
+
+  // decrement total of product
+  const decrementProduct = (id: number) => {
+    const isExistProduct = products.find((obj) => obj.id == id);
+
+    if (isExistProduct?.quantity <= 1) {
+      handleDeleteProductItem(isExistProduct.id);
+    } else {
+      const updatedProducts = products.map((obj) => {
+        if (obj.id == id) {
+          return {
+            ...obj,
+            quantity: obj.quantity - 1,
+          };
+        } else {
+          return obj;
+        }
+      });
+      setProducts(updatedProducts);
+      localStorage.setItem("products", JSON.stringify(updatedProducts));
+    }
+  };
 
   return (
     <div className="h-screen bg-gray-100 pt-20 text-black">
@@ -22,22 +70,22 @@ const page = () => {
                 <div className="sm:ml-4 sm:flex sm:w-full sm:justify-between">
                   <div className="mt-5 sm:mt-0">
                     <h2 className="text-lg font-bold text-gray-900">
-                      {obj.title}
+                      {obj?.title}
                     </h2>
                     <p className="mt-1 text-xs text-gray-700 line-clamp-2">
-                      {obj.description}
+                      {obj?.description}
                     </p>
                     <div className="flex gap-3 items-center">
-                      <span>{obj.rating.rate}</span>
+                      <span>{obj?.rating.rate}</span>
                       <div className="flex flex-row">
-                        {Array.from({ length: obj.rating.rate }, (_, id) => (
+                        {Array.from({ length: obj?.rating.rate }, (_, id) => (
                           <StarIcon
                             key={id}
                             className="w-5 h-5 text-yellow-400"
                           />
                         ))}
                         {Array.from(
-                          { length: 5 - obj.rating.rate },
+                          { length: 5 - obj?.rating.rate },
                           (_, idx) => (
                             <StartIconOutline
                               key={idx}
@@ -50,23 +98,32 @@ const page = () => {
                   </div>
                   <div className="mt-4 flex justify-between im sm:space-y-6 sm:mt-0 sm:block sm:space-x-6">
                     <div className="flex items-center border-gray-100">
-                      <span className="cursor-pointer rounded-l bg-gray-100 py-1 px-3.5 duration-100 hover:bg-blue-500 hover:text-blue-50">
-                        {" "}
+                      <span
+                        onClick={() => decrementProduct(obj.id)}
+                        className="cursor-pointer rounded-l bg-gray-100 py-1 px-3.5 duration-100 hover:bg-blue-500 hover:text-blue-50"
+                      >
                         -{" "}
                       </span>
                       <input
                         className="h-8 w-8 border bg-white text-center text-xs outline-none"
                         type="number"
-                        value="2"
+                        value={obj?.quantity}
                         min="1"
                       />
-                      <span className="cursor-pointer rounded-r bg-gray-100 py-1 px-3 duration-100 hover:bg-blue-500 hover:text-blue-50">
-                        {" "}
+                      <span
+                        onClick={() => incrementProduct(obj.id)}
+                        className="cursor-pointer rounded-r bg-gray-100 py-1 px-3 duration-100 hover:bg-blue-500 hover:text-blue-50"
+                      >
                         +{" "}
                       </span>
                     </div>
                     <div className="flex items-center space-x-4">
-                      <p className="text-sm font-semibold">{obj.price}$</p>
+                      <p className="text-sm font-semibold">
+                        {obj?.price.toLocaleString("en-US", {
+                          style: "currency",
+                          currency: "usd",
+                        })}
+                      </p>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -74,6 +131,7 @@ const page = () => {
                         stroke-width="1.5"
                         stroke="currentColor"
                         className="h-5 w-5 cursor-pointer duration-150 hover:text-red-500"
+                        onClick={() => handleDeleteProductItem(obj?.id)}
                       >
                         <path
                           stroke-linecap="round"
@@ -115,4 +173,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default ShoppingCardPage;

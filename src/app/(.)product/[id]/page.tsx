@@ -30,13 +30,15 @@ const ProductDetailPage = () => {
     const getDataProducts: IProduct[] =
       JSON.parse(localStorage.getItem("products") as string) || [];
 
-    const isExistProduct = getDataProducts.some((obj) => obj.id == product?.id);
+    const isExistProduct = getDataProducts.some(
+      (obj) => obj?.id == product?.id
+    );
     if (isExistProduct) {
       const newUpdatedProducts = getDataProducts.map((obj) => {
         if (obj.id == product?.id) {
           return { ...product, quantity: obj.quantity + 1 };
         } else {
-          return product;
+          return obj;
         }
       });
       localStorage.setItem(`products`, JSON.stringify(newUpdatedProducts));
