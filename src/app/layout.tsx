@@ -1,5 +1,5 @@
 import "./globals.css";
-import { Header } from "@/components";
+import { Cta, Header } from "@/components";
 
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
@@ -22,8 +22,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={montserrat.className}>
         <Header />
-        <ToastContainer/>
+        <ToastContainer />
         {children}
+        <Cta />
       </body>
     </html>
   );
