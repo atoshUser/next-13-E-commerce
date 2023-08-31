@@ -1,6 +1,6 @@
 "use client";
 import { IProduct } from "@/interfaces";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { StarIcon as StartIconOutline } from "@heroicons/react/24/outline";
 import { StarIcon } from "@heroicons/react/24/solid";
 import { OptimizationImage } from "@/components";
@@ -9,7 +9,7 @@ const ShoppingCardPage = () => {
   const [products, setProducts] = useState<IProduct[]>(
     JSON.parse(localStorage.getItem("products") as string) || []
   );
-
+  const [total, setTotal] = useState<number>();
   // delete  product from list Product
   const handleDeleteProductItem = (id: number) => {
     const newUpdateProducts: IProduct[] = products.filter(
@@ -20,7 +20,6 @@ const ShoppingCardPage = () => {
   };
 
   // increment total of product
-
   const incrementProduct = (id: number) => {
     const updatedProducts = products.map((obj) => {
       if (obj.id == id) {
@@ -55,7 +54,18 @@ const ShoppingCardPage = () => {
       localStorage.setItem("products", JSON.stringify(updatedProducts));
     }
   };
+  // calculate total price
 
+  const calcTotalPrice = () => {
+    const totalPrice: number = products.reduce((initial, item) => {
+      return initial + item.price * item.quantity;
+    }, 0);
+    setTotal(totalPrice);
+  };
+
+  useEffect(() => {
+    calcTotalPrice();
+  }, [products]);
   return (
     <div className="h-screen bg-gray-100 pt-20 text-black">
       <h1 className="mb-10 text-center text-2xl font-bold">Cart Items</h1>
@@ -119,7 +129,7 @@ const ShoppingCardPage = () => {
                     </div>
                     <div className="flex items-center space-x-4">
                       <p className="text-sm font-semibold">
-                        {obj?.price.toLocaleString("en-US", {
+                        {(obj?.price * obj.quantity).toLocaleString("en-US", {
                           style: "currency",
                           currency: "usd",
                         })}
@@ -150,17 +160,32 @@ const ShoppingCardPage = () => {
         <div className="mt-6 h-full rounded-lg border bg-white p-6 shadow-md md:mt-0 md:w-1/3">
           <div className="mb-2 flex justify-between">
             <p className="text-gray-700">Subtotal</p>
-            <p className="text-gray-700">$129.99</p>
+            <p className="text-gray-700">
+              {total?.toLocaleString("en-US", {
+                style: "currency",
+                currency: "usd",
+              })}
+            </p>
           </div>
           <div className="flex justify-between">
             <p className="text-gray-700">Shipping</p>
-            <p className="text-gray-700">$4.99</p>
+            <p className="text-gray-700">
+              {(10).toLocaleString("en-US", {
+                style: "currency",
+                currency: "usd",
+              })}
+            </p>
           </div>
           <hr className="my-4" />
           <div className="flex justify-between">
             <p className="text-lg font-bold">Total</p>
             <div className="">
-              <p className="mb-1 text-lg font-bold">$134.98 USD</p>
+              <p className="mb-1 text-lg font-bold">
+                {(total + 10).toLocaleString("en-US", {
+                  style: "currency",
+                  currency: "usd",
+                })}
+              </p>
               <p className="text-sm text-gray-700">including VAT</p>
             </div>
           </div>
