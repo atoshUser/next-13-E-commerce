@@ -1,5 +1,5 @@
 import "./globals.css";
-import { Cta, Header } from "@/components";
+import { Cta, Footer, Header } from "@/components";
 
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
@@ -25,6 +25,7 @@ export default function RootLayout({
         <ToastContainer />
         {children}
         <Cta />
+        <Footer />
       </body>
     </html>
   );

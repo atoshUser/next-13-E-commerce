@@ -57,7 +57,7 @@ const ProductDetailPage = () => {
       }}
       className={`relative z-20 inset-0 `}
     >
-      <div className="fixed inset-0 bg-sky-500/50">
+      <div className="fixed inset-0 bg-black">
         <div className="flex min-h-full items-center justify-center p-4">
           <Dialog.Panel className={`mx-0 max-w-3xl rounded bg-white p-10`}>
             {isLoading ? (
