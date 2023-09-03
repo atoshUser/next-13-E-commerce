@@ -46,7 +46,7 @@ const ProductDetailPage = () => {
       const newProduct = [...getDataProducts, { ...product, quantity: 1 }];
       localStorage.setItem(`products`, JSON.stringify(newProduct));
     }
-    toast.success("Successfully added!", { autoClose: 3000 });
+    toast.success("Successfully added!", { autoClose: 2000 });
   };
 
   return (
